@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <script src="/js/d3.v7.min.js"> </script>
+    <script src="/js/d3-org-chart.js"> </script>
+    <script src="/js/d3-flextree.min.js"> </script>
+    <div
+      class="chart-container"
+    ></div>
+    <script>
+      var chart;
+      var data = <%- data %>;
+      data.push({
+        parentId: null,
+        id: "1",
+        name: "welcome to org chart"
+      });
+      console.log(data.columns);
+      console.log(data);
+      chart = new d3.OrgChart()
+        .container('.chart-container')
+        .data(data) 
+        .nodeContent(d => {
+          console.log(d);
+          const colors = ['#278B8D', '#404040', '#0C5C73', '#33C6CB'];
+          const color = colors[d.depth % colors.length];
+          return `
+          <div style="color:#2A2A2A;height:160px;text-align:center;margin-top:-30px;background-image: linear-gradient(to right , #FFFFFF, #ECEDF0);">
+                  <div style="margin-left:10px;
+                              margin-top:30px;
+                              padding-top:20px;
+                              font-size:20px;
+                              font-weight:bold;
+                         ">${d.data.name}</div>
+          `;
+        })
+        .render();
+    </script>
+  </body>
+</html>
